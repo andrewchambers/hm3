@@ -5,6 +5,8 @@ A *WIP* minimalist statically typed 'glue language' that can be embedded in C/C+
 The project is mostly for fun and learning, so do not assume it will be finished, especially
 if you do not help.
 
+The project name is just a placeholder for now.
+
 ## Planned Features
 
 - Distributable as a single C file (like the sqlite3 amalgamation).
