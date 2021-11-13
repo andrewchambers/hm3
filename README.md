@@ -1,9 +1,8 @@
 # hm3
 
-A *WIP* minimalist statically typed 'glue language' that can be embedded in C/C++/Rust projects. The language aims to capture the essence of the [lua](https://www.lua.org) and [janet](https://janet-lang.org) runtimes and apply it to a language that resembles [standard ML](https://en.wikipedia.org/wiki/Standard_ML) (with tweaks).
+A *vapourware* minimalist statically typed 'glue language' that can be embedded in C/C++/Rust projects. The language aims to capture the essence of the [lua](https://www.lua.org) and [janet](https://janet-lang.org) runtimes and combine it with a language that is inspired by [standard ML](https://en.wikipedia.org/wiki/Standard_ML).
 
-The project is mostly for fun and learning, so do not assume it will be finished, especially
-if you do not help.
+The project is for fun and learning, though help is wanted if you are able.
 
 The project name is just a placeholder for now.
 
@@ -16,7 +15,7 @@ The project name is just a placeholder for now.
 - Interactive repl.
 - Type inference.
 - Compile time code execution.
-- Ability to distribute statically linked programs (VM + bytecode + C extensions).
+- Distribute statically linked programs (Bundled VM + bytecode + extensions).
 - Deterministic freeing of resources (like python).
 - Safe to run untrusted code in a sandbox.
 
