@@ -1,2 +1,20 @@
 # hm3
-An typed embeddable programming language just for fun
+
+A *WIP* minimalist statically typed 'glue language' that can be embedded in C/C++ and rust projects. The language aims to capture the essence of the [lua](https://www.lua.org) and [janet](https://janet-lang.org) runtimes and apply it to a language that resembles [standard ML](https://en.wikipedia.org/wiki/Standard_ML) (with tweaks).
+
+## Planned Features
+
+- Distributable as a single C file (like the sqlite3 amalgamation).
+- Easy to extend from C/C++.
+- Easy to embed in C/C++ programs.
+- Portable with a small footprint.
+- Interactive repl.
+- Type inference.
+- Compile time code execution.
+- Ability to distribute statically linked programs (VM + bytecode + C extensions).
+- Deterministic freeing of resources (like python).
+- Safe to run untrusted code in a sandbox.
+
+## References
+
+- [crafting interpreters book](https://craftinginterpreters.com/)
