@@ -1,6 +1,6 @@
 # hm3
 
-A *vapourware* minimalist statically typed 'glue language' that can be embedded in C/C++/Rust projects. The language aims to capture the essence of the [lua](https://www.lua.org) and [janet](https://janet-lang.org) runtimes and combine it with a language that is inspired by [standard ML](https://en.wikipedia.org/wiki/Standard_ML).
+A *vapourware* minimalist statically typed 'glue language' that can be embedded in C/C++/Rust projects. The implementation aims to capture the essence of the [lua](https://www.lua.org) and [janet](https://janet-lang.org) runtimes and combine it with a language that is inspired by [standard ML](https://en.wikipedia.org/wiki/Standard_ML).
 
 The project is for fun and learning, though help is wanted if you are able.
 
