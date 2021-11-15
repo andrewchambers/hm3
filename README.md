@@ -19,6 +19,10 @@ The project name is just a placeholder for now.
 - Deterministic freeing of resources (like python).
 - Safe to run untrusted code in a sandbox.
 
-## References
+## Learning Resources
 
-- [crafting interpreters book](https://craftinginterpreters.com/)
+- A guide for implementing interpreters - [crafting interpreters book](https://craftinginterpreters.com/)
+- Guide on unification for the type system - [Eli Bendersky blog on unification](https://eli.thegreenplace.net/2018/unification/)
+- Yet Another Efficient Unification Algorithm - [https://arxiv.org/pdf/cs/0603080.pdf]
+- Guide on type inference - [Eli Bendersky blog on type inference](https://eli.thegreenplace.net/2018/type-inference/)
+- Reference counting with cycle detection by trial deletion - [unified theory of garbage collection section 5.3](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.439.1202&rep=rep1&type=pdf)
