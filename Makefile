@@ -8,6 +8,7 @@ AMALG=\
 
 OBJ=\
 	vm.o\
+	number.o\
 	main.o\
 
 all: hm3

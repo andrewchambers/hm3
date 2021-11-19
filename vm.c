@@ -23,8 +23,8 @@ free_gcobject(struct hm3_gcobject *obj)
 hm3_value
 hm3_incref(hm3_value v)
 {
-    /* Not a heap object (low 3 bits set).  */
-    if ((uintptr_t)v.gcobject & 7)
+    /* Low bit set, not a heap object .  */
+    if (((uintptr_t)v.gcobject) & 1)
         return v;
 
     v.gcobject->rc += 1;
