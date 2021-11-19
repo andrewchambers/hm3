@@ -1,3 +1,6 @@
+#ifndef HM3_H
+#define HM3_H
+
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -40,3 +43,5 @@ int hm3_init_vm(struct hm3_vm *vm);
 
 /* Free resources associated with the hm3 vm. */
 void hm3_deinit_vm(struct hm3_vm *vm);
+
+#endif
