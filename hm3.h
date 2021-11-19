@@ -35,10 +35,10 @@ struct hm3_vm {
 };
 
 /*
-  Initialize the hm3 virtual machine in thread local storage.
-
-  returns -1 on failure.
-*/
+ * Initialize the hm3 virtual machine in thread local storage.
+ *
+ * returns -1 on failure.
+ */
 int hm3_vm_init(struct hm3_vm *vm);
 
 /* Free resources associated with the hm3 vm. */
