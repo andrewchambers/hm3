@@ -30,7 +30,7 @@ hm3_number_add(struct hm3_vm *vm, hm3_value l, hm3_value r)
     if (lsmall && rsmall) {
         int overflow;
         int64_t res;
-        
+
         overflow = __builtin_add_overflow(
             l.number.small.value, l.number.small.value, &res);
         if (!overflow && fits_small_number(res)) {
@@ -38,7 +38,7 @@ hm3_number_add(struct hm3_vm *vm, hm3_value l, hm3_value r)
         } else if (!overflow) {
             abort();
         } else {
-        	abort();
+            abort();
         }
     } else if (lsmall) {
         abort();
