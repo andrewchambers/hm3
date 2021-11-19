@@ -4,8 +4,7 @@
 -include config.mk
 
 AMALG=\
-  vm.c\
-  main.c\
+  vm.c
 
 OBJ=\
 	vm.o\
