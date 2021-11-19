@@ -5,11 +5,11 @@ main(int argc, char **argv)
 {
     struct hm3_vm vm;
 
-    if (hm3_init_vm(&vm) == -1) {
+    if (hm3_vm_init(&vm) == -1) {
         fputs("unable to initialize virtual machine, exiting\n", stderr);
         exit(1);
     }
 
-    hm3_deinit_vm(&vm);
+    hm3_vm_finish(&vm);
     return 0;
 }

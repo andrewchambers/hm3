@@ -1,7 +1,7 @@
 #include "hm3.h"
 
 int
-hm3_init_vm(struct hm3_vm *vm)
+hm3_vm_init(struct hm3_vm *vm)
 {
     struct hm3_gcobject;
 
@@ -23,6 +23,10 @@ free_gcobject(struct hm3_gcobject *obj)
 hm3_value
 hm3_incref(hm3_value v)
 {
+    /* Not a heap object (low 3 bits set).  */
+    if ((uintptr_t)v.gcobject & 7)
+        return v;
+
     v.gcobject->rc += 1;
     return v;
 }
@@ -57,7 +61,7 @@ alloc_gcobject(struct hm3_vm *vm, size_t size)
 }
 
 void
-hm3_deinit_vm(struct hm3_vm *vm)
+hm3_vm_finish(struct hm3_vm *vm)
 {
     struct hm3_gcobject *obj;
 

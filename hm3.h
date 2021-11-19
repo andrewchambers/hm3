@@ -39,9 +39,9 @@ struct hm3_vm {
 
   returns -1 on failure.
 */
-int hm3_init_vm(struct hm3_vm *vm);
+int hm3_vm_init(struct hm3_vm *vm);
 
 /* Free resources associated with the hm3 vm. */
-void hm3_deinit_vm(struct hm3_vm *vm);
+void hm3_vm_finish(struct hm3_vm *vm);
 
 #endif
