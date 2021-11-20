@@ -14,7 +14,7 @@ OBJ=\
 all: hm3
 
 hm3: $(OBJ)
-	$(CC) $(LDFLAGS) -o $@ $(OBJ)
+	$(CC) $(LDFLAGS) -ltommath -o $@ $(OBJ)
 
 main.o vm.o: hm3.h
 

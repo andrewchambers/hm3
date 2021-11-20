@@ -1,4 +1,22 @@
+/*
+ * This file implements core operations on the hm3 virtual machine.
+ */
+
 #include "hm3.h"
+
+static void
+default_oom_handler(void)
+{
+    fputs("out of memory\n", stderr);
+    exit(111);
+}
+
+noreturn void
+hm3_out_of_memory(struct hm3_vm *vm)
+{
+    vm->out_of_memory();
+    abort();
+}
 
 int
 hm3_vm_init(struct hm3_vm *vm)
@@ -6,6 +24,7 @@ hm3_vm_init(struct hm3_vm *vm)
     struct hm3_gcobject;
 
     memset(vm, 0, sizeof(struct hm3_vm));
+    vm->out_of_memory = default_oom_handler;
     return 0;
 }
 
@@ -39,17 +58,14 @@ hm3_decref(hm3_value v)
         free_gcobject(v.gcobject);
 }
 
-static struct hm3_gcobject *
-alloc_gcobject(struct hm3_vm *vm, size_t size)
+void *
+hm3_alloc_gcobject(struct hm3_vm *vm, size_t size)
 {
     struct hm3_gcobject *obj;
 
-    if (size > (SIZE_MAX - sizeof(struct hm3_gcobject)))
-        return NULL;
-
-    obj = malloc(sizeof(struct hm3_gcobject) + size);
+    obj = malloc(sizeof(struct hm3_gcobject));
     if (!obj)
-        return NULL;
+        hm3_out_of_memory(vm);
 
     obj->rc = 1;
     obj->prev = vm->tail_gcobject;
@@ -57,7 +73,7 @@ alloc_gcobject(struct hm3_vm *vm, size_t size)
     vm->tail_gcobject->next = obj;
     vm->tail_gcobject = obj;
 
-    return obj;
+    return (void *)obj;
 }
 
 void

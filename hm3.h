@@ -4,7 +4,9 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdnoreturn.h>
 #include <string.h>
+#include <tommath.h> /* XXX We want a library we can embed. */
 
 enum hm3_type_kind {
     HM3_TYPE_NUMBER,
@@ -32,6 +34,7 @@ struct hm3_small_number {
 
 struct hm3_big_number {
     struct hm3_gcobject gcobject;
+    mp_int value;
 };
 
 union hm3_number {
@@ -39,7 +42,11 @@ union hm3_number {
     struct hm3_big_number *big;
 };
 
+typedef void (*hm3_oom_cb)();
+
 struct hm3_vm {
+    hm3_oom_cb out_of_memory; /* Don't invoke directly, use hm3_out_of_memory
+                                 which is noreturn. */
     struct hm3_gcobject *head_gcobject, *tail_gcobject;
 };
 
@@ -57,6 +64,16 @@ void hm3_decref(hm3_value v);
  * returns -1 on failure.
  */
 int hm3_vm_init(struct hm3_vm *vm);
+
+/* Invokes the vm's out of memory handler and aborts execution. */
+noreturn void hm3_out_of_memory(struct hm3_vm *vm);
+
+/*
+ * Allocated a garbaged collected object on the heap, each object has an
+ * hm3_gcobject header. Will never fail, instead will invoke hm3_out_of_memory
+ * if there is insufficient memory.
+ */
+void *hm3_alloc_gcobject(struct hm3_vm *vm, size_t sz);
 
 /* Free resources associated with the hm3 vm. */
 void hm3_vm_finish(struct hm3_vm *vm);
