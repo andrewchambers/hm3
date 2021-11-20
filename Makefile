@@ -9,6 +9,7 @@ AMALG=\
 OBJ=\
 	vm.o\
 	number.o\
+	chunk.o\
 	main.o\
 
 all: hm3

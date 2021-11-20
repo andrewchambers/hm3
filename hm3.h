@@ -28,7 +28,7 @@ struct hm3_gcobject {
 #define HM3_SMALL_NUMBER_MAX 4611686018427387905
 
 struct hm3_small_number {
-    int64_t value : 63; /* TODO 32 bit platforms. */
+    int64_t value : 63; /* TODO 32 bit platforms */
     int is_small : 1;
 };
 
@@ -54,6 +54,15 @@ typedef union {
     struct hm3_gcobject *gcobject;
     union hm3_number number;
 } hm3_value;
+
+struct hm3_chunk {
+    size_t opcodes_capacity;
+    size_t opcodes_count;
+    uint8_t *opcodes;
+    size_t constants_capacity;
+    size_t constants_count;
+    hm3_value *constants;
+};
 
 hm3_value hm3_incref(hm3_value v);
 void hm3_decref(hm3_value v);

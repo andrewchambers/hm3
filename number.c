@@ -4,7 +4,6 @@
  * Numbers are represented by either a 63 bit signed integer, or on overflow
  * they become heap allocated arbitrary precision integers.
  */
-
 #include "hm3.h"
 
 static int
