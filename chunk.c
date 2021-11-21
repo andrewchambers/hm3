@@ -58,3 +58,18 @@ hm3_chunk_add_op(struct hm3_vm *vm, struct hm3_chunk *chunk, uint8_t op)
     chunk->opcodes[chunk->opcodes_count] = op;
     return chunk->opcodes_count++;
 }
+
+void
+hm3_chunk_shrink(struct hm3_vm *vm, struct hm3_chunk *chunk)
+{
+    chunk->opcodes = reallocarray(chunk->opcodes, chunk->opcodes_count, 1);
+    if (!chunk->opcodes)
+        hm3_out_of_memory(vm);
+    chunk->opcodes_capacity = chunk->opcodes_count;
+
+    chunk->constants = reallocarray(
+        chunk->constants, chunk->constants_count, sizeof(hm3_value));
+    if (!chunk->constants)
+        hm3_out_of_memory(vm);
+    chunk->constants_capacity = chunk->constants_count;
+}
