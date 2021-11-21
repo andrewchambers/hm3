@@ -60,7 +60,26 @@ hm3_chunk_add_op(struct hm3_vm *vm, struct hm3_chunk *chunk, uint8_t op)
 }
 
 void
-hm3_chunk_shrink(struct hm3_vm *vm, struct hm3_chunk *chunk)
+hm3_chunk_add_push_value(
+    struct hm3_vm *vm, struct hm3_chunk *chunk, hm3_value v)
+{
+    size_t constant;
+
+    constant = hm3_chunk_add_constant(vm, chunk, v);
+    if (constant <= 255) {
+        hm3_chunk_add_op(vm, chunk, OP_CONSTANT8);
+        hm3_chunk_add_op(vm, chunk, (uint8_t)constant);
+    } else if (constant <= 65535) {
+        hm3_chunk_add_op(vm, chunk, OP_CONSTANT16);
+        hm3_chunk_add_op(vm, chunk, ((uint16_t)constant) & 0xff);
+        hm3_chunk_add_op(vm, chunk, ((uint16_t)constant & 0xff00) >> 8);
+    } else {
+        hm3_out_of_memory(vm); // XXX Better error or handle it.
+    }
+}
+
+void
+hm3_chunk_trim(struct hm3_vm *vm, struct hm3_chunk *chunk)
 {
     chunk->opcodes = reallocarray(chunk->opcodes, chunk->opcodes_count, 1);
     if (!chunk->opcodes)

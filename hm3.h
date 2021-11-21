@@ -100,10 +100,9 @@ size_t hm3_chunk_add_constant(
 size_t hm3_chunk_add_op(struct hm3_vm *vm, struct hm3_chunk *chunk, uint8_t op);
 
 /*
- * Shrink the chunk internal storage to the minimum required.
+ * Trim the chunk internal storage to the minimum required.
  */
-void
-hm3_chunk_shrink(struct hm3_vm *vm, struct hm3_chunk *chunk);
+void hm3_chunk_trim(struct hm3_vm *vm, struct hm3_chunk *chunk);
 
 hm3_value hm3_incref(hm3_value v);
 void hm3_decref(hm3_value v);
