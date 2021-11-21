@@ -10,6 +10,9 @@ main(int argc, char **argv)
         exit(1);
     }
 
+    struct hm3_chunk *chunk = hm3_chunk_create(&vm);
+    hm3_chunk_destroy(&vm, chunk);
+
     hm3_vm_finish(&vm);
     return 0;
 }

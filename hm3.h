@@ -37,10 +37,10 @@ struct hm3_big_number {
     mp_int value;
 };
 
-union hm3_number {
+typedef union {
     struct hm3_small_number small;
     struct hm3_big_number *big;
-};
+} hm3_number;
 
 typedef void (*hm3_oom_cb)();
 
@@ -52,8 +52,16 @@ struct hm3_vm {
 
 typedef union {
     struct hm3_gcobject *gcobject;
-    union hm3_number number;
+    hm3_number number;
 } hm3_value;
+
+enum hm3_opcode {
+    OP_RET,
+    OP_CONSTANT8,
+    OP_CONSTANT16,
+    OP_ADD_NUMBER,
+    OP_POP8,
+};
 
 struct hm3_chunk {
     size_t opcodes_capacity;
@@ -63,6 +71,33 @@ struct hm3_chunk {
     size_t constants_count;
     hm3_value *constants;
 };
+
+/*
+ * Create a new code chunk/
+ */
+struct hm3_chunk *hm3_chunk_create(struct hm3_vm *vm);
+
+/*
+ * Destroy a code chunk, decrementing any contained constant reference counts in
+ * the process.
+ */
+void hm3_chunk_destroy(struct hm3_vm *vm, struct hm3_chunk *chunk);
+
+/*
+ * Add a constant to the chunk constant array, incrementing the values reference
+ * count.
+ *
+ * Returns the constant index in the chunk constant array.
+ */
+size_t hm3_chunk_add_constant(
+    struct hm3_vm *vm, struct hm3_chunk *chunk, hm3_value v);
+
+/*
+ * Add an opcode byte to the chunk opcode array.
+ *
+ * Returns in the opcode index in the chunk opcode array.
+ */
+size_t hm3_chunk_add_op(struct hm3_vm *vm, struct hm3_chunk *chunk, uint8_t op);
 
 hm3_value hm3_incref(hm3_value v);
 void hm3_decref(hm3_value v);
@@ -86,5 +121,10 @@ void *hm3_alloc_gcobject(struct hm3_vm *vm, size_t sz);
 
 /* Free resources associated with the hm3 vm. */
 void hm3_vm_finish(struct hm3_vm *vm);
+
+hm3_value hm3_wrap_number(hm3_number v);
+hm3_number hm3_number_from_int64(struct hm3_vm *vm, int64_t v);
+hm3_number hm3_number_from_uint64(struct hm3_vm *vm, uint64_t v);
+hm3_number hm3_number_add(struct hm3_vm *vm, hm3_number l, hm3_number r);
 
 #endif
