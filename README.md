@@ -19,6 +19,11 @@ The project name is just a placeholder for now.
 - Deterministic freeing of resources (like python).
 - Safe to run untrusted code in a sandbox.
 
+## Ideas to explore
+
+- Structural sub typing.
+- Ergonomic and alterative ways to deal with error values.
+
 ## Learning Resources
 
 - A guide for implementing interpreters - [Crafting interpreters book](https://craftinginterpreters.com/)
