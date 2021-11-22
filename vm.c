@@ -28,6 +28,25 @@ hm3_vm_init(struct hm3_vm *vm)
     return 0;
 }
 
+void
+hm3_vm_stack_push(struct hm3_vm *vm, hm3_value v)
+{
+    if (vm->stack_capacity == vm->stack_count) {
+        vm->stack_capacity = vm->stack_capacity ? 512 : vm->stack_capacity * 2;
+        vm->stack
+            = reallocarray(vm->stack, vm->stack_capacity, sizeof(hm3_value));
+        if (!vm->stack)
+            hm3_out_of_memory(vm);
+        vm->stack[vm->stack_count++] = v;
+    }
+}
+
+hm3_value
+hm3_vm_stack_pop(struct hm3_vm *vm)
+{
+    return vm->stack[--(vm->stack_count)];
+}
+
 static void
 free_gcobject(struct hm3_gcobject *obj)
 {
@@ -77,10 +96,41 @@ hm3_alloc_gcobject(struct hm3_vm *vm, size_t size)
 }
 
 void
+hm3_vm_step(struct hm3_vm *vm)
+{
+    switch (*(vm->ip++)) {
+    case OP_CONSTANT8: {
+        size_t cidx;
+
+        cidx = (size_t)(*(vm->ip++));
+        hm3_vm_stack_push(vm, hm3_incref(vm->chunk->constants[cidx]));
+        break;
+    }
+    case OP_CONSTANT16: {
+        size_t cidx;
+
+        cidx = (size_t)(*(vm->ip++)) | (size_t)(*(vm->ip++) << 8);
+        hm3_vm_stack_push(vm, hm3_incref(vm->chunk->constants[cidx]));
+        break;
+    }
+    default:
+        abort();
+    }
+}
+
+void
 hm3_vm_finish(struct hm3_vm *vm)
 {
     struct hm3_gcobject *obj;
 
+    if (vm->chunk)
+        hm3_chunk_destroy(vm, vm->chunk);
+
+    while (vm->stack_count)
+        hm3_decref(vm->stack[--vm->stack_count]);
+
     for (obj = vm->head_gcobject; obj; obj = obj->next)
         free_gcobject(obj);
+
+    free(vm->stack);
 }

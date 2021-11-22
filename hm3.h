@@ -42,25 +42,31 @@ typedef union {
     struct hm3_big_number *big;
 } hm3_number;
 
+typedef union {
+    struct hm3_gcobject *gcobject;
+    hm3_number number;
+} hm3_value;
+
 typedef void (*hm3_oom_cb)();
 
 struct hm3_vm {
     hm3_oom_cb out_of_memory; /* Don't invoke directly, use hm3_out_of_memory
                                  which is noreturn. */
     struct hm3_gcobject *head_gcobject, *tail_gcobject;
-};
 
-typedef union {
-    struct hm3_gcobject *gcobject;
-    hm3_number number;
-} hm3_value;
+    struct hm3_chunk *chunk;
+    uint8_t *ip;
+
+    hm3_value *stack;
+    size_t stack_count;
+    size_t stack_capacity;
+};
 
 enum hm3_opcode {
     OP_RET,
     OP_CONSTANT8,
     OP_CONSTANT16,
-    OP_ADD_NUMBER,
-    OP_POP8,
+    OP_ADD,
 };
 
 struct hm3_chunk {

@@ -35,9 +35,10 @@ size_t
 hm3_chunk_add_constant(struct hm3_vm *vm, struct hm3_chunk *chunk, hm3_value v)
 {
     if (chunk->constants_capacity == chunk->constants_count) {
-        chunk->constants = reallocarray(chunk->constants,
-            chunk->constants_capacity ? 8 : chunk->constants_capacity * 2,
-            sizeof(hm3_value));
+        chunk->constants_capacity
+            = chunk->constants_capacity ? 8 : chunk->constants_capacity * 2;
+        chunk->constants = reallocarray(
+            chunk->constants, chunk->constants_capacity, sizeof(hm3_value));
         if (!chunk->constants)
             hm3_out_of_memory(vm);
     }
@@ -49,9 +50,10 @@ size_t
 hm3_chunk_add_op(struct hm3_vm *vm, struct hm3_chunk *chunk, uint8_t op)
 {
     if (chunk->opcodes_capacity == chunk->opcodes_count) {
-        chunk->opcodes = reallocarray(chunk->opcodes,
-            (chunk->opcodes_capacity ? 32 : chunk->opcodes_capacity * 2),
-            sizeof(op));
+        chunk->opcodes_capacity
+            = chunk->opcodes_capacity ? 32 : chunk->opcodes_capacity * 2;
+        chunk->opcodes
+            = reallocarray(chunk->opcodes, chunk->opcodes_capacity, sizeof(op));
         if (!chunk->opcodes)
             hm3_out_of_memory(vm);
     }
